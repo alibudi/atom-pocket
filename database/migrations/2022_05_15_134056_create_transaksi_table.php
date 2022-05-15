@@ -20,7 +20,7 @@ class CreateTransaksiTable extends Migration
             $table->date('tanggal');
             $table->string('nilai', 100);
             $table->string('dompet_ID', 40);
-            $table->string('kategori_ID', 40);
+            $table->string('category_ID', 40);
             $table->string('status_ID', 40);
 
             $table->foreign('dompet_ID')
@@ -28,9 +28,9 @@ class CreateTransaksiTable extends Migration
                 ->on('dompet')
                 ->onUpdate('cascade');
 
-            $table->foreign('kategori_ID')
+            $table->foreign('category_ID')
                 ->references('ID')
-                ->on('kategori')
+                ->on('category')
                 ->onUpdate('cascade');
 
             $table->foreign('status_ID')

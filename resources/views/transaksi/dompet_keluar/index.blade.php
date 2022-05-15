@@ -1,12 +1,12 @@
 @extends('template.master')
-@section('title', 'Dompet')
+@section('title', 'Dompet Keluar')
 @section('content')
 
 <!-- breadcrumb -->
 <div class="breadcrumb-header justify-content-between">
     <div class="left-content">
         <div>
-            <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">Data Dompet</h2>
+            <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">Data Dompet Keluar</h2>
         </div>
     </div>
      <div class="center-content">
@@ -40,7 +40,7 @@
             <div class="card">
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title mg-b-0"> <a href="{{ route('dompet.create') }}" class="btn btn-primary btn-sm">  <i class="fas fa-plus"> Buat Baru</i> </a></h4>
+                        <h4 class="card-title mg-b-0"> <a href="{{ route('dompet_keluar.create') }}" class="btn btn-primary btn-sm">  <i class="fas fa-plus"> Buat Baru</i> </a></h4>
                         <i class="mdi mdi-dots-horizontal text-gray"></i>
                     </div>
                     
@@ -51,39 +51,28 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>NAMA</th>
-                                   	<th>REFERENSI</th>
+                                    <th>TANGGAL</th>
+                                   	<th>KODE</th>
 									<th>DESKRIPSI</th>
-									<th>STATUS</th>
-                                    <th class="text-center">Action</th>
+									<th>KATEGORI</th>
+                                    <th>NILAI</th>
+                                    <th>DOMPET</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @php
                                     $no = 1;
                                 @endphp
-                              @foreach ($dompet as $item)
+                              @foreach ($dompet_keluar as $item)
                                     <tr>
                                     <th scope="row">{{ $no++ }}</th>
-                                    <td>{{ $item->nama }}</td>
-                                    <td>{{ $item->referensi }}</td>
+                                    <td>{{ $item->tanggal }}</td>
+                                    <td>{{ $item->kode }}</td>
                                     <td>{{ $item->deskripsi }}</td>
-                                    <td>{{ $item->status_dompet }}</td>
-                                    <td class="text-center">
-                            @if ($item->status_dompet == 'Aktif')
-                            <a class="btn btn-danger btn-xs" id="change_color" href="{{ route('dompet.status', $item->status_ID) }}">
-                                <i class="fa fa-times"></i> Tidak Aktif
-                            </a>
-                            @else
-                            <a class="btn btn-success btn-xs" id="change_color" href="{{ route('dompet.status', $item->status_ID) }}">
-                                <i class="fa fa-check"></i> Aktif
-                            </a>
-                            @endif
-                            <a class="btn btn-primary btn-xs" href="{{ route('dompet.edit',$item->dompet_id) }}"><i class="fas fa-pen"></i></a> 
-                             <a class="btn btn-primary btn-xs" href="{{ route('dompet.show',$item->status_ID) }}"><i class="fas fa-eye"></i></a>
-                                    </td>
+                                    <td>{{ $item->category }}</td>
+                                    <td>(+) {{ number_format($item->nilai) }}</td>
+                                    <td>{{ $item->nama_dompet }}</td>
                                 </tr>
-                               
                               @endforeach
                             </tbody>
                         </table>
