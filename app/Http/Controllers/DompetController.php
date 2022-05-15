@@ -80,7 +80,6 @@ class DompetController extends Controller
 
 
         return redirect()->route('dompet.index')->with('success', 'Data berhasil ditambahkan');
-        // return redirect('dompet')->with('sukses', 'Data berhasil ditambahkan');
     }
 
     /**

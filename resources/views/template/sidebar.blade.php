@@ -1,6 +1,6 @@
 <aside class="app-sidebar sidebar-scroll">
 				<div class="main-sidebar-header active">
-					<h2 style="color: white">Atom Dompet</h2>
+					<h2 style="color: white">Ali Budi </h2>
 					{{-- <a class="desktop-logo logo-light active" href="index.html"><img src="{{ asset('assets/img/brand/logo.png')}}" class="main-logo" alt="logo"></a>
 					<a class="desktop-logo logo-dark active" href="index.html"><img src="{{ asset('assets/img/brand/logo-white.png')}}" class="main-logo dark-theme" alt="logo"></a>
 					<a class="logo-icon mobile-logo icon-light active" href="index.html"><img src="{{ asset('assets/img/brand/favicon.png')}}" class="logo-icon" alt="logo"></a>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DompetController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +20,5 @@ Route::get('/', function () {
 });
 Route::resource('dompet', DompetController::class);
 Route::get('change_status/{id}', [DompetController::class, 'change_status'])->name('dompet.status');
+Route::resource('category', CategoryController::class);
+Route::get('change_category/{id}', [CategoryController::class, 'change_status'])->name('category.status');

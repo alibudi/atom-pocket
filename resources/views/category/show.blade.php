@@ -6,7 +6,7 @@
 <div class="breadcrumb-header justify-content-between">
     <div class="left-content">
         <div>
-            <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">Detail Dompet</h2>
+            <h2 class="main-content-title tx-24 mg-b-1 mg-b-lg-1">Detail Kategori</h2>
         </div>
     </div>
 </div>
@@ -20,20 +20,15 @@
 				</div>
 				<div class="card-body pt-0">
 				 <h5>Nama</h5>
+        <p>{{ $show_category->nama }}</p>
+        <br/>
 
-                <p>{{ $show_dompet->nama }}</p>
-                <br/>
+        <h5>Deskripsi</h5>
+        <p>{{ $show_category->deskripsi }}</p>
+        <br/>
 
-                <h5>Referensi</h5>
-                <p>{{ $show_dompet->referensi }}</p>
-                <br/>
-
-                <h5>Deskripsi</h5>
-                <p>{{ $show_dompet->deskripsi }}</p>
-                <br/>
-
-                <h5>Status Dompet</h5>
-                <p>{{ $show_dompet->status_dompet }}</p>
+        <h5>Status kategori</h5>
+        <p>{{ $show_category->status_category }}</p>
 				</div>
 			</div>
 		</div>
