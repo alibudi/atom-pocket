@@ -54,6 +54,15 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $validate = $request->validate([
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'required',
+        ],
+        [
+            'nama.required' => 'Nama kategori harus diisi',
+            'nama.max' => 'Nama kategori maksimal 255 karakter',
+            'deskripsi.required' => 'Deskripsi kategori harus diisi',
+        ]);
         $category = $request->all(); // konversi data dari object ke array
 
         $id = (string)Uuid::generate(4);
@@ -121,9 +130,16 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+         $validate = $request->validate([
+            'nama' => 'required|string|max:255',
+            'deskripsi' => 'required',
+        ],
+        [
+            'nama.required' => 'Nama kategori harus diisi',
+            'nama.max' => 'Nama kategori maksimal 255 karakter',
+            'deskripsi.required' => 'Deskripsi kategori harus diisi',
+        ]);
         $category = $request->all();
-
-        // Query untuk update data dalam 2 (dua) tabel sekaligus berdasarkan dompet id
         category::join('category_status', 'category.status_ID', '=', 'category_status.id')
             ->where('category.id', '=', $id)
             ->update([
@@ -140,9 +156,7 @@ class CategoryController extends Controller
     */
     public function change_status($id)
     {
-        $dompet = CategoryStatus::findOrFail($id);  // Select data berdasarkan status_ID
-
-        // Buat Kondisi Untuk Mengubah status
+        $dompet = CategoryStatus::findOrFail($id);  
         if ($dompet->status_category == 'Aktif')
         {
             CategoryStatus::where('id', '=', $id)

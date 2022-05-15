@@ -59,10 +59,15 @@ class DompetController extends Controller
      */
     public function store(Request $request)
     {
-        // $validasi = $request->validate([
-        //     'nama' => 'required',
-           
-        // ]);
+        $validatedData = $request->validate([
+            'nama' => 'required|max:255',
+            'deskripsi' => 'required',
+        ],
+        [
+            'nama.required' => 'Nama dompet harus diisi',
+            'nama.max' => 'Nama dompet maksimal 255 karakter',
+            'deskripsi.required' => 'Deskripsi dompet harus diisi',
+        ]);
         $dompet = $request->all();
         $id = (string)Uuid::generate(4);
 
@@ -130,6 +135,15 @@ class DompetController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validatedData = $request->validate([
+            'nama' => 'required|max:255',
+            'deskripsi' => 'required',
+        ],
+        [
+            'nama.required' => 'Nama dompet harus diisi',
+            'nama.max' => 'Nama dompet maksimal 255 karakter',
+            'deskripsi.required' => 'Deskripsi dompet harus diisi',
+        ]);
         $dompet = $request->all();
         Dompet::join('dompet_status', 'dompet.status_ID', '=', 'dompet_status.id')
             ->where('dompet.id', '=', $id)

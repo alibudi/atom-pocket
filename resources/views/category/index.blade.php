@@ -46,8 +46,8 @@
                     
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table mg-b-0 text-md-nowrap">
+                   <div class="table-responsive">
+										<table class="table text-md-nowrap" id="example1">
                             <thead>
                                 <tr>
                                     <th>No</th>

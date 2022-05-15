@@ -18,7 +18,7 @@ class DompetMasukController extends Controller
      */
     public function index()
     {
-        // Query data dari tabel dompet_masuk
+
         $dompet_masuk = Transaksi::join('transaksi_status', 'transaksi.status_ID', '=', 'transaksi_status.id')
                         ->join('dompet', 'transaksi.dompet_ID', '=', 'dompet.id')
                         ->join('category', 'transaksi.category_ID', '=', 'category.id')
@@ -42,13 +42,8 @@ class DompetMasukController extends Controller
      */
     public function create()
     {
-         // Query select data dari tabel dompet
-         $dompet = Dompet::select('id as dompet_id', 'nama')->get();
-
-         // Query select data dari tabel category
-         $category = Category::select('id as category_id', 'nama')->get();
-
-
+        $dompet = Dompet::select('id as dompet_id', 'nama')->get();
+        $category = Category::select('id as category_id', 'nama')->get();
         return view('transaksi.dompet_masuk.create', ['dompet' => $dompet, 'category' => $category]);
     }
 
@@ -60,9 +55,16 @@ class DompetMasukController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $validate = $request->validate([
+            'nilai' => 'required',
+            'deskripsi' => 'required|max:255',
+        ],
+        [
+            'nilai.required' => 'Nilai tidak boleh kosong',
+            'deskripsi.required' => 'Deskripsi tidak boleh kosong',
+            'deskripsi.max' => 'Deskripsi tidak boleh lebih dari 255 karakter',
+        ]);
         $transaksi = $request->all();
-
         $id = (string)Uuid::generate(4); // variabel untuk menampung UUID, dan akan digunakan oleh 2 tabel sekaligus
 
         TransaksiStatus::create([

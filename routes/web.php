@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DompetController;
 use App\Http\Controllers\DompetKeluarController;
 use App\Http\Controllers\DompetMasukController;
+use App\Http\Controllers\LaporanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,3 +27,5 @@ Route::resource('category', CategoryController::class);
 Route::get('change_category/{id}', [CategoryController::class, 'change_status'])->name('category.status');
 Route::resource('dompet_masuk', DompetMasukController::class);
 Route::resource('dompet_keluar', DompetKeluarController::class);
+Route::resource('laporan', LaporanController::class);
+Route::post('export', [LaporanController::class, 'export'])->name('export');

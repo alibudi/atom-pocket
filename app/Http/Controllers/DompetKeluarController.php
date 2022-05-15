@@ -60,10 +60,18 @@ class DompetKeluarController extends Controller
      */
     public function store(Request $request)
     {
+        $validate = $request->validate([
+            'nilai' => 'required',
+            'deskripsi' => 'required|max:255',
+        ],
+        [
+            'nilai.required' => 'Nilai tidak boleh kosong',
+            'deskripsi.required' => 'Deskripsi tidak boleh kosong',
+            'deskripsi.max' => 'Deskripsi tidak boleh lebih dari 255 karakter',
+        ]);
         $transaksi = $request->all();
 
-        $id = (string)Uuid::generate(4); // variabel untuk menampung UUID, akan digunakan oleh 2 tabel
-
+        $id = (string)Uuid::generate(4);
         TransaksiStatus::create([
             'ID' => $id,
             'status_transaksi' => 'Keluar'
