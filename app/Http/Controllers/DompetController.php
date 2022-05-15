@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dompet;
+use App\Models\DompetStatus;
 use Illuminate\Http\Request;
+use Webpatser\Uuid\Uuid;
 
 class DompetController extends Controller
 {
@@ -12,10 +14,31 @@ class DompetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+     public function index($status_dompet = null)
     {
-        $dompet = Dompet::all();
-        return view('dompet.index', compact('dompet'));
+        $status = $status_dompet != null ? $status_dompet : '';
+        if ($status == null) {
+            $dompet = Dompet::join('dompet_status', 'dompet.status_ID', '=', 'dompet_status.id')
+                        ->select(
+                            'dompet.id as dompet_id',
+                            'dompet.*',
+                            'dompet_status.*'
+                        )
+                        ->orderBy('nama', 'asc')
+                        ->get();
+        } else {
+             $dompet = Dompet::join('dompet_status', 'dompet.status_ID', '=', 'dompet_status.id')
+                        ->select(
+                            'dompet.id as dompet_id',
+                            'dompet.*',
+                            'dompet_status.*'
+                        )
+                        ->where('status_dompet', '=', $status)
+                        ->orderBy('nama', 'asc')
+                        ->get();
+        }
+
+        return view('dompet.index', ['dompet' => $dompet, 'status' => $status]);
     }
 
     /**
@@ -36,7 +59,28 @@ class DompetController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // $validasi = $request->validate([
+        //     'nama' => 'required',
+           
+        // ]);
+        $dompet = $request->all();
+        $id = (string)Uuid::generate(4);
+
+         DompetStatus::create([
+            'ID' => $id
+        ]);
+
+        Dompet::create([
+            'ID' => (string)Uuid::generate(4), // Generate UUID untuk ID tabel Dompet
+            'nama' =>$dompet['nama'],
+            'referensi' =>$dompet['referensi'],
+            'deskripsi' =>$dompet['deskripsi'],
+            'status_ID' =>$id
+        ]);
+
+
+        return redirect()->route('dompet.index')->with('success', 'Data berhasil ditambahkan');
+        // return redirect('dompet')->with('sukses', 'Data berhasil ditambahkan');
     }
 
     /**
@@ -47,7 +91,15 @@ class DompetController extends Controller
      */
     public function show($id)
     {
-        //
+        $show_dompet = Dompet::join('dompet_status', 'dompet.status_ID', '=', 'dompet_status.id')
+                            ->select(
+                                'dompet.id as dompet_id',
+                                'dompet.*',
+                                'dompet_status.*'
+                            )
+                            ->where('dompet.status_ID', '=', $id)
+                            ->first();
+        return view('dompet.show', compact('show_dompet'));
     }
 
     /**
@@ -58,7 +110,16 @@ class DompetController extends Controller
      */
     public function edit($id)
     {
-        //
+         $dompet = Dompet::join('dompet_status', 'dompet.status_ID', '=', 'dompet_status.id')
+                    ->select(
+                        'dompet.id as dompet_id',
+                        'dompet.*',
+                        'dompet_status.*'
+                    )
+                    ->where('dompet.id', '=', $id)
+                    ->first();
+
+        return view('dompet.edit', ['edit_dompet' => $dompet]);
     }
 
     /**
@@ -70,7 +131,17 @@ class DompetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $dompet = $request->all();
+        Dompet::join('dompet_status', 'dompet.status_ID', '=', 'dompet_status.id')
+            ->where('dompet.id', '=', $id)
+            ->update([
+                'nama' => $dompet['nama'],
+                'referensi' => $dompet['referensi'],
+                'deskripsi' => $dompet['deskripsi'],
+                'status_dompet' => $dompet['status_dompet'],
+            ]);
+
+        return redirect()->route('dompet.index')->with(['success' => 'Dompet Berhasil Diupdate!']);
     }
 
     /**
@@ -79,6 +150,20 @@ class DompetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
+    public function change_status($id)
+     {
+        $dompet = DompetStatus::findOrFail($id); 
+        if ($dompet->status_dompet == 'Aktif')
+        {
+            DompetStatus::where('id', '=', $id)
+                ->update(['status_dompet' => 'Tidak Aktif']);
+        } else {
+            DompetStatus::where('id', '=', $id)
+                ->update(['status_dompet' => 'Aktif']);
+        }
+        return redirect()->route('dompet.index')->with(['success' => 'Status Dompet Diubah!']);
+     }
     public function destroy($id)
     {
         //

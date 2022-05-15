@@ -52,9 +52,9 @@
                                 <tr>
                                     <th>No</th>
                                     <th>NAMA</th>
-                                   	<td>REFERENSI</td>
-									<td>DESKRIPSI</td>
-									<td>STATUS</td>
+                                   	<th>REFERENSI</th>
+									<th>DESKRIPSI</th>
+									<th>STATUS</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -67,9 +67,20 @@
                                     <th scope="row">{{ $no++ }}</th>
                                     <td>{{ $item->nama }}</td>
                                     <td>{{ $item->referensi }}</td>
+                                    <td>{{ $item->deskripsi }}</td>
+                                    <td>{{ $item->status_dompet }}</td>
                                     <td class="text-center">
-                                    <form action="{{ route('user.destroy',$item->id) }}" method="POST">
-                                        <a class="btn btn-primary btn-xs" href=""><i class="fas fa-pen"></i></a> 
+                                        @if ($item->status_dompet == 'Aktif')
+                            <a class="dropdown-item" id="change_color" href="{{ route('dompet.status', $item->status_ID) }}">
+                                <i class="fa fa-times"></i> Tidak Aktif
+                            </a>
+                            @else
+                            <a class="dropdown-item" id="change_color" href="{{ route('dompet.status', $item->status_ID) }}">
+                                <i class="fa fa-check"></i> Aktif
+                            </a>
+                            @endif
+                                    <form action="{{ route('dompet.destroy',$item->ID) }}" method="POST">
+                                        <a class="btn btn-primary btn-xs" href="{{ route('dompet.edit',$item->ID) }}"><i class="fas fa-pen"></i></a> 
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')"><i class="fas fa-trash"></i></button>

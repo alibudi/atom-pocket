@@ -18,3 +18,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::resource('dompet', DompetController::class);
+Route::get('change_status/{id}', [DompetController::class, 'change_status'])->name('dompet.status');

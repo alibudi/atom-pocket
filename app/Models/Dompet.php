@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Dompet extends Model
 {
     use HasFactory;
-    protected $table = 'dompet_status';
+    protected $table = 'dompet';
     protected $guarded = [];
 }
